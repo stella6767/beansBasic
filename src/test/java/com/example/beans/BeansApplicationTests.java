@@ -30,9 +30,15 @@ class BeansApplicationTests {
         //저희가 직접 인스턴스를 만들고, 메서드를 호출했다면,
         //이번에 스프링 프레임워크에게 그 주도권을 내어준거에요.
 
-        beanTestService.diTest();
+        //beanTestService.diTest();
 
+        //beanTestService.test();
+        beanTestService.diTest();
+        beanTestService.diTest();
         //초간단하게 말해서 ioc, di 의 개념이에요.
+
+
+        //저희가 기대한 거는 매번 다른 인스턴스를 반환하는 걸 기대를 했는데.
     }
 
 
@@ -49,5 +55,9 @@ class BeansApplicationTests {
         }
 
     }
+
+
+
+
 
 }

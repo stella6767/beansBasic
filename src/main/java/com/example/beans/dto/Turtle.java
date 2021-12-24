@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController //이름 기본전략은싱글톤.
+//@RestController //이름 기본전략은싱글톤.
 public class Turtle {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Turtle.class);

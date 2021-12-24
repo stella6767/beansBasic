@@ -4,12 +4,10 @@ package com.example.beans.service;
 
 
 
-import com.example.beans.dto.Animal;
-import com.example.beans.dto.Dog;
-import com.example.beans.dto.MyObjectMapper;
-import com.example.beans.dto.Snake;
+import com.example.beans.dto.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,6 +51,8 @@ public class BeanTestService {
     //예를 들어서 어플리케이션 서버에 db가 두개 붙어있을 경우도 있어요.
 
 
+    ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+
 
     private final List<Animal> animalList;
     private final List<Dog> dogList;
@@ -61,21 +61,31 @@ public class BeanTestService {
 
     private final Snake snake;
 
+
+    private final Horse horse;
+
     private final MyObjectMapper objectMapper;
 
-    public BeanTestService(List<Animal> animalList, List<Dog> dogList, Map<String, Animal> animalMap, Map<String, Dog> dogMap, @Lazy Snake snake, MyObjectMapper objectMapper) {
+    public BeanTestService(List<Animal> animalList, List<Dog> dogList, Map<String, Animal> animalMap, Map<String, Dog> dogMap, @Lazy Snake snake, Horse horse, MyObjectMapper objectMapper) {
         this.animalList = animalList;
         this.dogList = dogList;
         this.animalMap = animalMap;
         this.dogMap = dogMap;
         this.snake = snake;
+        this.horse = horse;
         this.objectMapper = objectMapper;
 
 
-        System.out.println(animalList);
-        System.out.println(dogList);
-        System.out.println(animalMap);
-        System.out.println(dogMap);
+//        System.out.println(animalList);
+//        System.out.println(dogList);
+//        System.out.println(animalMap);
+//        System.out.println(dogMap);
+
+        System.out.println(horse.toString());
+
+        //prototype bean은 컨테이너가 어플리케이션 구동할때, 빈을 등록하지 않아요.
+        //주입받을 때마다 프로토타입 빈이 생성되고, 의존관계 주입, 초기화까지만 진행하고, 그리고 더 이상 관리를 안함.
+        //
 
         //objectMapper.coercionConfigFor()
 
@@ -96,6 +106,28 @@ public class BeanTestService {
     //private final Animal animal;
 //
 
+
+    public void test(){ //
+
+        taskExecutor.initialize();
+
+        Runnable r = () ->{
+
+            for (int i = 0; i<10; i++){
+                horse.gettingOld();
+            }
+        };
+
+        taskExecutor.execute(r);
+
+        for (int i = 0; i<10; i++){
+            horse.gettingOld();
+        }
+
+    }
+
+
+
 //    public BeanTestService(Snake snake) {
 //
 //        //this.animal = animal;
@@ -114,10 +146,12 @@ public class BeanTestService {
         //dog.bark();
         //animal.bark();
         //originDog.bark(); e
-
+        System.out.println(horse.toString());
 
     }
 
+
+    //싱글톤과 다르게 매번 호출할때맏 새로 만들어지거든요. 근데 이게 싱글톤이랑 같이 쓸 때는 문제가 좀 있어요.
 
 
 }

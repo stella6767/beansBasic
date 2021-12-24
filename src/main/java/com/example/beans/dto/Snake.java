@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 
 
 
-@Profile("prod") //prod
+//@Profile("prod") //prod
 @Controller //이름 기본전략은싱글톤. 그러면 얘네랑 그냥 @Component 무슨 차이냐? 이거는 나중에 restapi 간단하건 만들면서 알아보고,
 //저희는 여기서는 그냥 이런 식으로 bean들을 등록시킬 수 있다.
 public class Snake {
