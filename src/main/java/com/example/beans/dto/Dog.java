@@ -3,9 +3,13 @@ package com.example.beans.dto;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +19,7 @@ import javax.annotation.PreDestroy;
 
 @Slf4j
 //@Component//이름 기본전략은싱글톤.
-public class Dog implements InitializingBean, DisposableBean {
+public class Dog implements InitializingBean, DisposableBean, BeanNameAware, ApplicationContextAware {
 
     //bean의 생명주기에 대해서 알아볼게요.
 
@@ -25,8 +29,29 @@ public class Dog implements InitializingBean, DisposableBean {
 
     public String name;
 
+
+
+
+
     public Dog() {
         log.info(this.toString() + " 등록!"); //1
+    }
+
+
+    @Override
+    public void setBeanName(String s) {
+
+        log.info("setBeanName " + s);
+
+    }
+
+    //spring context의 특정 측명을 빈에 주입하는데 사용할 수 있는 추가 Aware인터페이스
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        log.info("setApplicationContext ");
+        
+        Bird bird = applicationContext.getBean("bird", Bird.class);
+        //bird.
     }
 
     @PostConstruct
@@ -68,6 +93,7 @@ public class Dog implements InitializingBean, DisposableBean {
     public void bark(){
         log.info("멍멍");
     }
+
 
 
 
